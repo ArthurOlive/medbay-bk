@@ -16,7 +16,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     private AuthService authService;
-	
+    
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Auth user = authService.getByUsername(email);
