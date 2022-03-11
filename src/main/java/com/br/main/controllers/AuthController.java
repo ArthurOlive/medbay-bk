@@ -1,5 +1,7 @@
 package com.br.main.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,7 +40,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 	
 	@PostMapping("/api/register")
-	public String register(@RequestBody AuthDTO authDTO) {
+	public String register(@Valid @RequestBody AuthDTO authDTO) {
 		
         Auth user = new Auth();
 
@@ -51,7 +53,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/api/authenticate")
-	public String authentiacate(@RequestBody AuthDTO authDTO) throws Exception {
+	public String authentiacate(@Valid @RequestBody AuthDTO authDTO) throws Exception {
 		
 		authenticate(authDTO.getUsername(), authDTO.getPassword());
 		
