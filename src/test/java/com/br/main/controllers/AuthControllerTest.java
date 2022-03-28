@@ -87,7 +87,7 @@ public class AuthControllerTest {
 	public void successExample1() throws Exception {
 				
 		Auth auth = new Auth();
-		auth.setUsename("antonio");
+		auth.setUsename("antonio123");
 		auth.setPassword("senhavalida");
 		
 		mockMvc.perform(

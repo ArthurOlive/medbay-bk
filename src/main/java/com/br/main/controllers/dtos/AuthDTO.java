@@ -5,7 +5,6 @@ import javax.validation.constraints.Size;
 
 public class AuthDTO {
 	public AuthDTO() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	@NotEmpty(message = "Username is required")
