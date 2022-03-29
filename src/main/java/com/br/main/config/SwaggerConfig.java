@@ -38,7 +38,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-          "No Limite Sport",
+          "Medbay",
           "Some custom description of API.",
           "1.0",
           "Terms of service",
