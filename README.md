@@ -1,7 +1,7 @@
 <div align="center">
   <img src="/.github/img/logo.png">
   <p>
-    Sistema de gerenciamento de saude
+    Sistema de gerenciamento de saúde
   <p>
 </div>
 
