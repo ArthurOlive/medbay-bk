@@ -1,6 +1,7 @@
 package com.br.main.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
@@ -18,6 +19,7 @@ public class MetaData implements Serializable{
     private String value;
     @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Profile profile;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public void setId(long id) {
         this.id = id;
@@ -28,6 +30,9 @@ public class MetaData implements Serializable{
     public void setValue(String value) {
         this.value = value;
     }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
     public long getId() {
         return id;
     }
@@ -36,6 +41,9 @@ public class MetaData implements Serializable{
     }
     public String getValue() {
         return value;
+    }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
 }

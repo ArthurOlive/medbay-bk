@@ -1,6 +1,7 @@
 package com.br.main.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
@@ -21,6 +22,7 @@ public class Address implements Serializable {
     private String street;
     private String number;
     private String complement;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public String getCep() {
         return cep;
@@ -46,6 +48,9 @@ public class Address implements Serializable {
     public String getUf() {
         return uf;
     }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
     public void setCep(String cep) {
         this.cep = cep;
     }
@@ -69,6 +74,9 @@ public class Address implements Serializable {
     }
     public void setUf(String uf) {
         this.uf = uf;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

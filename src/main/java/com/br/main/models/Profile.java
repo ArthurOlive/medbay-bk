@@ -2,6 +2,7 @@ package com.br.main.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Profile implements Serializable {
     private Address address;
     @OneToMany(mappedBy="profile", cascade=CascadeType.ALL, fetch=FetchType.LAZY )
     private List<MetaData> medaData; 
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public Address getAddress() {
         return address;
@@ -39,6 +41,9 @@ public class Profile implements Serializable {
     }
     public long getId() {
         return id;
+    }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
     public List<MetaData> getMedaData() {
         return medaData;
@@ -66,5 +71,8 @@ public class Profile implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

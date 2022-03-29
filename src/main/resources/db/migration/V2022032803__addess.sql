@@ -15,5 +15,6 @@ CREATE TABLE public.address (
     city varchar(255),
     street varchar(255),
     number varchar(255),
-    complement varchar(255)
+    complement varchar(255),
+    created_at timestamp without time zone
 );

@@ -1,6 +1,7 @@
 package com.br.main.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Role implements Serializable{
     private String name;
     @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Privilege> privileges;
+    private LocalDateTime createdAt = LocalDateTime.now();
     
     public long getId() {
         return id;
@@ -28,6 +30,9 @@ public class Role implements Serializable{
     public List<Privilege> getPrivileges() {
         return privileges;
     }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
     public void setId(long id) {
         this.id = id;
     }
@@ -36,5 +41,8 @@ public class Role implements Serializable{
     }
     public void setPrivileges(List<Privilege> privileges) {
         this.privileges = privileges;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

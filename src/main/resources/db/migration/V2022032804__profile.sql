@@ -14,6 +14,7 @@ CREATE TABLE public.profile (
     document varchar(255) unique,
     address_id bigint,
     gender int,
+    created_at timestamp without time zone,
     CONSTRAINT fk_address_id FOREIGN KEY (address_id)
         REFERENCES public.address (id) MATCH SIMPLE
         ON UPDATE NO ACTION

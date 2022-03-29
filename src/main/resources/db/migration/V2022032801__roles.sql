@@ -9,5 +9,6 @@ CREATE SEQUENCE public.role_seq
 DROP TABLE IF EXISTS public.role;
 CREATE TABLE public.role (
     id bigint primary key,
-    name varchar(255) unique
+    name varchar(255) unique,
+    created_at timestamp without time zone
 );

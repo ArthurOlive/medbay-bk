@@ -12,6 +12,7 @@ CREATE TABLE public.user (
     auth_id bigint,
     profile_id bigint,
     role_id bigint,
+    created_at timestamp without time zone,
     CONSTRAINT fk_auth_id FOREIGN KEY (auth_id)
         REFERENCES public.auth (id) MATCH SIMPLE
         ON UPDATE NO ACTION

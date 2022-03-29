@@ -1,6 +1,7 @@
 package com.br.main.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
@@ -19,12 +20,16 @@ public class User implements Serializable{
     private Profile profile;
     @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Role role;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public Auth getAuth() {
         return auth;
     }
     public long getId() {
         return id;
+    }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
     public Profile getProfile() {
         return profile;
@@ -43,6 +48,9 @@ public class User implements Serializable{
     }
     public void setRole(Role role) {
         this.role = role;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
 }
