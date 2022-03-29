@@ -6,19 +6,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.br.main.models.Auth;
+import com.br.main.models.User;
 
 public class UserCustomDetails implements UserDetails {
 
-    private Auth auth;
+    private User user;
 
-    public UserCustomDetails(Auth user) {
+    public UserCustomDetails(User user) {
 
-        this.auth = user;
+        this.user = user;
 
     }
 
-    public Auth getUser() {
-        return auth;
+    public User getUser() {
+        return user;
     }
 
     @Override
@@ -28,12 +29,12 @@ public class UserCustomDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return auth.getPassword();
+        return user.getAuth().getPassword();
     }
 
     @Override
     public String getUsername() {
-        return auth.getUsername();
+        return user.getAuth().getUsername();
     }
 
     @Override

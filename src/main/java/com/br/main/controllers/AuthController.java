@@ -7,9 +7,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import com.br.main.jwtAuth.JwtTokenUtil;
 import com.br.main.jwtAuth.JwtUserDetailsService;
 import com.br.main.models.Auth;
 import com.br.main.services.AuthService;
+import com.br.main.services.dtos.UserCustomDetails;
 
 @CrossOrigin
 @RestController

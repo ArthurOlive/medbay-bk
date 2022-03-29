@@ -9,18 +9,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.br.main.models.Auth;
+import com.br.main.models.User;
 import com.br.main.services.dtos.UserCustomDetails;
 
 @Component
 public class UserCustomDetailsService implements UserDetailsService, Serializable {
 
     @Autowired
-    private AuthService userService;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Auth user = userService.getByUsername(email);
+        User user = userService.getByUsername(email);
         
         return new UserCustomDetails(user);
     }
