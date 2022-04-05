@@ -6,8 +6,8 @@ CREATE SEQUENCE public.user_seq
     MAXVALUE 9223372036854775807
     CACHE 1;
 
-DROP TABLE IF EXISTS public.user;
-CREATE TABLE public.user (
+DROP TABLE IF EXISTS public.user_system;
+CREATE TABLE public.user_system (
     id bigint primary key,
     auth_id bigint,
     profile_id bigint,
