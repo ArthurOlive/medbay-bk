@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.br.main.jwtAuth.JwtAuthenticationEntryPoint;
 import com.br.main.jwtAuth.JwtRequestFilter;
+import com.br.main.jwtAuth.JwtUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Autowired
-	private UserDetailsService jwtUserDetailsService;
+	private JwtUserDetailsService jwtUserDetailsService;
 
     @Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -74,8 +75,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+	public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
+		builder
+			.userDetailsService(jwtUserDetailsService)
+			.passwordEncoder(passwordEncoder());
 	}
 
 }
