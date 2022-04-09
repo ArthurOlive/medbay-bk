@@ -9,7 +9,7 @@ public class Factory {
 
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
         userRegisterDTO.setName("Antonio");
-        userRegisterDTO.setDocument("document");
+        userRegisterDTO.setDocument("238.437.630-62");
         userRegisterDTO.setUsername("antonio1234");
         userRegisterDTO.setPassword("senhavalida");
         userRegisterDTO.setRole(RoleEnum.MEDICO);
