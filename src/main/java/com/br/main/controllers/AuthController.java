@@ -43,9 +43,6 @@ public class AuthController {
 	
     @Autowired
     private BCryptPasswordEncoder encode;
-    
-    @Autowired
-    private AuthService authService;
 
     @Autowired
     private UserService userService;
@@ -70,11 +67,7 @@ public class AuthController {
         user.getProfile().setName(userRegisterDTO.getName());
         user.getProfile().setDocument(userRegisterDTO.getDocument());
         
-        Role role = roleService.findByRoleEnum(userRegisterDTO.getRole());
-
-        if (role == null) {
-            throw new Exception("Role não reconhecida!");
-        }
+        Role role = roleService.findByRoleEnum(userRegisterDTO.getRole()).orElseThrow();
 
         user.setRole(role);
 

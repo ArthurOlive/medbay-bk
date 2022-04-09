@@ -21,7 +21,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserSystem create(UserSystem user) throws SQLException {
+    public UserSystem create(UserSystem user) {
         return userRepository.save(user);
     } 
 }

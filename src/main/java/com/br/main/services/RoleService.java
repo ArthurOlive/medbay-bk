@@ -1,5 +1,7 @@
 package com.br.main.services;
 
+import java.util.Optional;
+
 import com.br.main.controllers.dtos.RoleEnum;
 import com.br.main.models.Role;
 import com.br.main.repositories.RoleRepository;
@@ -13,7 +15,7 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
     
-    public Role findByRoleEnum(RoleEnum role) {
+    public Optional<Role> findByRoleEnum(RoleEnum role) {
         
         if (role.equals(RoleEnum.MEDICO)) {
             return roleRepository.findByName("MEDICO");
