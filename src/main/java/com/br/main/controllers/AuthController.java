@@ -26,6 +26,7 @@ import com.br.main.models.Profile;
 import com.br.main.models.Role;
 import com.br.main.models.UserSystem;
 import com.br.main.services.AuthService;
+import com.br.main.services.DocumentValidatator;
 import com.br.main.services.RoleService;
 import com.br.main.services.UserService;
 
@@ -52,6 +53,7 @@ public class AuthController {
 
     @Autowired
     private RoleService roleService;
+
 	
 	@PostMapping("/api/register")
 	public String register(@Valid @RequestBody UserRegisterDTO userRegisterDTO) throws Exception {
@@ -65,6 +67,14 @@ public class AuthController {
         user.getAuth().setPassword(encode.encode(userRegisterDTO.getPassword()));
 
         user.getProfile().setName(userRegisterDTO.getName());
+
+        String document = userRegisterDTO.getDocument();
+        document = document.replace(".", "");
+        document = document.replace("-", "");
+        if (!DocumentValidatator.isCPF(document) && !DocumentValidatator.isCNPJ(document)) {
+            throw new Exception("Documento inválido!");
+        }
+
         user.getProfile().setDocument(userRegisterDTO.getDocument());
         
         Role role = roleService.findByRoleEnum(userRegisterDTO.getRole()).orElseThrow();
@@ -90,7 +100,7 @@ public class AuthController {
         		
 		return token;
 	}
-	
+
     private void authenticate(String username, String password) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
