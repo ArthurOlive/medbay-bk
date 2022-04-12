@@ -39,6 +39,7 @@ public class Auth implements Serializable {
         return id;
     }
 
+    @JsonIgnoreProperties
     public String getPassword() {
         return password;
     }
