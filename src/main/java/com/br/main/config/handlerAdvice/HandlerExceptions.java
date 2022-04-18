@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.br.main.services.exceptions.NotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,11 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class HandlerExceptions extends ResponseEntityExceptionHandler {
@@ -57,4 +61,19 @@ public class HandlerExceptions extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(resp, headers, status);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> entityNotFound(NotFoundException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        Map<String, Object> resp = new LinkedHashMap<>();
+        resp.put("timestamp", new Date());
+        resp.put("status", status.value());
+
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+
+        resp.put("errors", errors);
+
+        return new ResponseEntity<>(resp, status);
+    }
 }
