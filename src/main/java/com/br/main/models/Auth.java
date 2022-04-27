@@ -23,6 +23,18 @@ public class Auth implements Serializable {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    public Auth() {
+    }
+
+    public Auth(String username) {
+        this.username = username;
+    }
+
+    public Auth(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public long getId() {
         return id;
     }

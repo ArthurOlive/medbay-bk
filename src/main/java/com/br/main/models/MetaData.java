@@ -10,14 +10,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class MetaData implements Serializable{
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="meta_data_generator")
 	@SequenceGenerator(name="meta_data_generator", sequenceName="meta_data_seq", allocationSize=1)
     private long id;
     private String key;
     private String value;
-    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
     private Profile profile;
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -42,6 +44,11 @@ public class MetaData implements Serializable{
     public String getValue() {
         return value;
     }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

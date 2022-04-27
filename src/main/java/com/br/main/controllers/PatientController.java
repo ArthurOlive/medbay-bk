@@ -1,38 +1,51 @@
 package com.br.main.controllers;
 
-import com.br.main.controllers.dtos.RoleEnum;
+import com.br.main.controllers.dtos.PatientDTO;
+import com.br.main.controllers.dtos.PatientInsertDTO;
 import com.br.main.models.UserSystem;
-import com.br.main.services.UserService;
+import com.br.main.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/patients")
 public class PatientController {
-    private final String role = RoleEnum.PACIENTE.getRole().toUpperCase(Locale.ROOT);
 
     @Autowired
-    private UserService userService;
+    private PatientService patientService;
 
     @GetMapping
-    public ResponseEntity<List<UserSystem>> getAllPatients() {
-        System.out.printf(role);
-        return ResponseEntity.ok(userService.getAllByRole(role));
+    public ResponseEntity<Page<PatientDTO>> getAllPatients(Pageable pageable) {
+        Page<UserSystem> Page = patientService.getAll(pageable);
+        return ResponseEntity.ok(Page.map(PatientDTO::new));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserSystem> getPatientById(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok(userService.getById(id, role));
+    public ResponseEntity<PatientDTO> getPatientById(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.ok(new PatientDTO(patientService.getById(id)));
+    }
+
+    @PostMapping
+    public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody PatientInsertDTO patientInsertDTO) {
+        UserSystem userSystem = patientService.create(PatientInsertDTO.toUserSystem(patientInsertDTO));
+        return new ResponseEntity<>(new PatientDTO(userSystem), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PatientDTO> updatePatientById(@PathVariable(value = "id") Long id, @Valid @RequestBody PatientDTO patientDTO) {
+        UserSystem userSystem = patientService.update(id, PatientDTO.toUserSystem(patientDTO));
+        return ResponseEntity.ok(new PatientDTO((userSystem)));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatientById(@PathVariable(value = "id") Long id) {
-        userService.deleteById(id, role);
+        patientService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
