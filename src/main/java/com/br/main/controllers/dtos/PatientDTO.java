@@ -20,7 +20,7 @@ public class PatientDTO implements Serializable {
     @NotBlank(message = "Name is required")
     private String name;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birth;
 
     @NotBlank(message = "Document is required")
