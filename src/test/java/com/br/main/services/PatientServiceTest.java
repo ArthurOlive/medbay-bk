@@ -2,6 +2,7 @@ package com.br.main.services;
 
 import com.br.main.models.Role;
 import com.br.main.models.UserSystem;
+import com.br.main.repositories.RoleRepository;
 import com.br.main.repositories.UserRepository;
 import com.br.main.services.exceptions.NotFoundException;
 import com.br.main.utils.PatientFactory;
@@ -34,6 +35,9 @@ public class PatientServiceTest {
     @Mock
     private UserRepository repository;
 
+    @Mock
+    private RoleRepository roleRepository;
+
     private PageImpl<UserSystem> page;
     private Long existingId;
     private Long notExistingId;
@@ -41,6 +45,7 @@ public class PatientServiceTest {
     private UserSystem patient;
     private UserSystem newPatient;
     private UserSystem notPatient;
+    private Role role;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -52,6 +57,7 @@ public class PatientServiceTest {
         notPatient = PatientFactory.createPatient();
         notPatient.setRole(new Role());
         page = new PageImpl<>(List.of(patient));
+        role = PatientFactory.createPatientRole();
 
         when(repository.findAllByRole((Pageable) ArgumentMatchers.any(), any())).thenReturn(page);
 
@@ -60,6 +66,7 @@ public class PatientServiceTest {
         when(repository.findById(notPatientId)).thenReturn(Optional.of(notPatient));
 
         when(repository.save(ArgumentMatchers.any())).thenReturn(patient);
+        when(roleRepository.findByName(ArgumentMatchers.any())).thenReturn(Optional.of(role));
 
         doNothing().when(repository).deleteById(existingId);
     }

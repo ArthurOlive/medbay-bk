@@ -60,7 +60,7 @@ public class PatientFactory {
         return address;
     }
 
-    private static Role createPatientRole() {
+    public static Role createPatientRole() {
 
         Role patientRole = new Role();
 
