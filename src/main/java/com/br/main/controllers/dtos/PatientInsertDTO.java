@@ -18,6 +18,11 @@ public class PatientInsertDTO extends PatientDTO {
         super();
     }
 
+    public PatientInsertDTO(UserSystem userSystem) {
+        super(userSystem);
+        this.setPassword(userSystem.getAuth().getPassword());
+    }
+
     public static UserSystem toUserSystem(PatientInsertDTO patientInsertDTO) {
         UserSystem userSystem = new UserSystem();
 

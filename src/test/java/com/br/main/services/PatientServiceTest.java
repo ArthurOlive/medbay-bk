@@ -39,6 +39,7 @@ public class PatientServiceTest {
     private Long notExistingId;
     private Long notPatientId;
     private UserSystem patient;
+    private UserSystem newPatient;
     private UserSystem notPatient;
 
     @BeforeEach
@@ -47,6 +48,7 @@ public class PatientServiceTest {
         notExistingId = 2L;
         notPatientId = 3L;
         patient = PatientFactory.createPatient();
+        newPatient = PatientFactory.createPatientForInsert();
         notPatient = PatientFactory.createPatient();
         notPatient.setRole(new Role());
         page = new PageImpl<>(List.of(patient));
@@ -97,6 +99,15 @@ public class PatientServiceTest {
         assertThrows(NotFoundException.class, () -> {
             service.getById(notPatientId);
         });
+    }
+
+    @Test
+    @DisplayName("Create new patient")
+    public void createShouldReturnPatient() {
+
+        UserSystem result = service.create(newPatient);
+
+        assertNotNull(result);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.br.main.utils;
 
 import com.br.main.controllers.dtos.PatientDTO;
+import com.br.main.controllers.dtos.PatientInsertDTO;
 import com.br.main.models.*;
 
 import java.time.LocalDate;
@@ -9,6 +10,23 @@ import java.util.Collections;
 import java.util.List;
 
 public class PatientFactory {
+
+    public static UserSystem createPatientForInsert() {
+
+        PatientInsertDTO patient = new PatientInsertDTO();
+
+        patient.setUsername("paciente01");
+        patient.setPassword("123456");
+        patient.setName("José Silva");
+        patient.setBirth(LocalDate.EPOCH);
+        patient.setDocument("056.252.020-10");
+        patient.setGender(GenderEnum.MALE);
+        patient.setAddress(createAddress());
+        patient.setRole(createPatientRole());
+        patient.setMedaData(createMetaDataList());
+
+        return PatientInsertDTO.toUserSystem(patient);
+    }
 
     public static UserSystem createPatient() {
 
@@ -31,7 +49,6 @@ public class PatientFactory {
 
         Address address = new Address();
 
-        address.setId(1L);
         address.setCep("21535-900");
         address.setCountry("Brasil");
         address.setUf("RJ");
@@ -60,11 +77,9 @@ public class PatientFactory {
         MetaData metaData1 = new MetaData();
         MetaData metaData2 = new MetaData();
 
-        metaData1.setId(1L);
         metaData1.setKey("Diabetes");
         metaData1.setValue("Tipo 1");
 
-        metaData2.setId(2L);
         metaData2.setKey("Sangue");
         metaData2.setValue("A+");
 

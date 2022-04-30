@@ -20,9 +20,6 @@ public class PatientService {
     private final String role = RoleEnum.PACIENTE.getRole().toUpperCase(Locale.ROOT);
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Transactional(readOnly = true)
@@ -45,6 +42,8 @@ public class PatientService {
 
     @Transactional
     public UserSystem create(UserSystem user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         user.getAuth().setPassword(passwordEncoder.encode(user.getAuth().getPassword()));
         user.getProfile().getMetaData().forEach(metaData -> metaData.setProfile(user.getProfile()));
         return userRepository.save(user);
