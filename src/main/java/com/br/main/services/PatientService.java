@@ -2,9 +2,9 @@ package com.br.main.services;
 
 import com.br.main.controllers.dtos.RoleEnum;
 import com.br.main.models.UserSystem;
+import com.br.main.repositories.RoleRepository;
 import com.br.main.repositories.UserRepository;
 import com.br.main.services.exceptions.NotFoundException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +21,9 @@ public class PatientService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Transactional(readOnly = true)
     public Page<UserSystem> getAll(Pageable pageable) {
@@ -43,21 +46,30 @@ public class PatientService {
     @Transactional
     public UserSystem create(UserSystem user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+        var role = roleRepository.findByName("PACIENTE").get();
         user.getAuth().setPassword(passwordEncoder.encode(user.getAuth().getPassword()));
         user.getProfile().getMetaData().forEach(metaData -> metaData.setProfile(user.getProfile()));
+        user.setRole(role);
         return userRepository.save(user);
     }
 
     @Transactional
     public UserSystem update(Long id, UserSystem user) {
         UserSystem userSystem = getById(id);
-        user.setId(userSystem.getId());
-        user.getProfile().setId(userSystem.getProfile().getId());
-        user.getAuth().setId(userSystem.getAuth().getId());
-        user.getProfile().getMetaData().forEach(metaData -> metaData.setProfile(user.getProfile()));
-        BeanUtils.copyProperties(user, userSystem);
-        return userRepository.save(userSystem);
+        userSystem.getAuth().setUsename(user.getAuth().getUsername());
+
+        userSystem.getProfile().setName(user.getProfile().getName());
+        userSystem.getProfile().setDocument(user.getProfile().getDocument());
+        userSystem.getProfile().setGender(user.getProfile().getGender());
+        userSystem.getProfile().setBirth(user.getProfile().getBirth());
+
+        userSystem.getProfile().getAddress().setCep(user.getProfile().getAddress().getCep());
+        userSystem.getProfile().getAddress().setStreet(user.getProfile().getAddress().getStreet());
+        userSystem.getProfile().getAddress().setNumber(user.getProfile().getAddress().getNumber());
+        userSystem.getProfile().getAddress().setCity(user.getProfile().getAddress().getCity());
+        userSystem.getProfile().getAddress().setCountry(user.getProfile().getAddress().getCountry());
+        userSystem.getProfile().getAddress().setUf(user.getProfile().getAddress().getUf());
+        return userSystem;
     }
 
     public void deleteById(Long id) {
