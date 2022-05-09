@@ -56,7 +56,7 @@ public class JwtTokenUtil implements Serializable {
 
         if (userDetails instanceof UserCustomDetails) {
             try {
-                var name = ((UserCustomDetails) userDetails).getUser().getProfile().getName();
+                String name = ((UserCustomDetails) userDetails).getUser().getProfile().getName();
                 claims.put("NAME", name);
             } catch (Exception e) {
                 // TODO: handle exception

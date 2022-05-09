@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,30 +21,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class AuthControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-    @Test
-    @DisplayName("Invalid name test")
-    public void nameEmpty() throws Exception {
+	@Test
+	@DisplayName("Invalid name test")
+	public void nameEmpty() throws Exception {
 
-        UserRegisterDTO userRegisterDTO = Factory.createUserRegisterDTO();
+		UserRegisterDTO userRegisterDTO = Factory.createUserRegisterDTO();
 		userRegisterDTO.setName("");
 
-        String err = "Name is required";
+		String err = "Name is required";
 
-        var result = mockMvc.perform(
-                        post("/api/register")
-                                .contentType("application/json")
-                                .content(objectMapper.writeValueAsString(userRegisterDTO)))
-                .andExpect(status().isBadRequest())
-                .andReturn();
+		MvcResult result = mockMvc.perform(
+				post("/api/register")
+						.contentType("application/json")
+						.content(objectMapper.writeValueAsString(userRegisterDTO)))
+				.andExpect(status().isBadRequest())
+				.andReturn();
 
 		assertTrue(result.getResponse().getContentAsString().contains(err));
-    }
+	}
 
 	@Test
 	@DisplayName("Invalid document test")
@@ -54,10 +55,10 @@ public class AuthControllerTest {
 
 		String err = "Document is required";
 
-		var result = mockMvc.perform(
-						post("/api/register")
-								.contentType("application/json")
-								.content(objectMapper.writeValueAsString(userRegisterDTO)))
+		MvcResult result = mockMvc.perform(
+				post("/api/register")
+						.contentType("application/json")
+						.content(objectMapper.writeValueAsString(userRegisterDTO)))
 				.andExpect(status().isBadRequest())
 				.andReturn();
 
@@ -73,10 +74,10 @@ public class AuthControllerTest {
 
 		String err = "Username is required";
 
-		var result = mockMvc.perform(
-						post("/api/register")
-								.contentType("application/json")
-								.content(objectMapper.writeValueAsString(userRegisterDTO)))
+		MvcResult result = mockMvc.perform(
+				post("/api/register")
+						.contentType("application/json")
+						.content(objectMapper.writeValueAsString(userRegisterDTO)))
 				.andExpect(status().isBadRequest())
 				.andReturn();
 
@@ -92,10 +93,10 @@ public class AuthControllerTest {
 
 		String err = "Password is required";
 
-		var result = mockMvc.perform(
-						post("/api/register")
-								.contentType("application/json")
-								.content(objectMapper.writeValueAsString(userRegisterDTO)))
+		MvcResult result = mockMvc.perform(
+				post("/api/register")
+						.contentType("application/json")
+						.content(objectMapper.writeValueAsString(userRegisterDTO)))
 				.andExpect(status().isBadRequest())
 				.andReturn();
 
@@ -111,10 +112,10 @@ public class AuthControllerTest {
 
 		String err = "Role is required";
 
-		var result = mockMvc.perform(
-						post("/api/register")
-								.contentType("application/json")
-								.content(objectMapper.writeValueAsString(userRegisterDTO)))
+		MvcResult result = mockMvc.perform(
+				post("/api/register")
+						.contentType("application/json")
+						.content(objectMapper.writeValueAsString(userRegisterDTO)))
 				.andExpect(status().isBadRequest())
 				.andReturn();
 
@@ -130,31 +131,31 @@ public class AuthControllerTest {
 
 		String err = "Size of password is invalid!";
 
-		var result = mockMvc.perform(
-						post("/api/register")
-								.contentType("application/json")
-								.content(objectMapper.writeValueAsString(userRegisterDTO)))
+		MvcResult result = mockMvc.perform(
+				post("/api/register")
+						.contentType("application/json")
+						.content(objectMapper.writeValueAsString(userRegisterDTO)))
 				.andExpect(status().isBadRequest())
 				.andReturn();
 
 		assertTrue(result.getResponse().getContentAsString().contains(err));
 	}
 
-    @Test
-    @DisplayName("Success test")
-    public void successExample1() throws Exception {
+	@Test
+	@DisplayName("Success test")
+	public void successExample1() throws Exception {
 
-        UserRegisterDTO userRegisterDTO = Factory.createUserRegisterDTO();
+		UserRegisterDTO userRegisterDTO = Factory.createUserRegisterDTO();
 
 		String success = "Usuario criado com sucesso!";
 
-		var result = mockMvc.perform(
-						post("/api/register")
-								.contentType("application/json")
-								.content(objectMapper.writeValueAsString(userRegisterDTO)))
+		MvcResult result = mockMvc.perform(
+				post("/api/register")
+						.contentType("application/json")
+						.content(objectMapper.writeValueAsString(userRegisterDTO)))
 				.andExpect(status().isOk())
 				.andReturn();
 
 		assertTrue(result.getResponse().getContentAsString().contains(success));
-    }
+	}
 }

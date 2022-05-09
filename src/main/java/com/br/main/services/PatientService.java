@@ -1,6 +1,7 @@
 package com.br.main.services;
 
 import com.br.main.controllers.dtos.RoleEnum;
+import com.br.main.models.Role;
 import com.br.main.models.UserSystem;
 import com.br.main.repositories.RoleRepository;
 import com.br.main.repositories.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -32,7 +34,7 @@ public class PatientService {
 
     @Transactional(readOnly = true)
     public UserSystem getById(Long id) {
-        var user = userRepository.findById(id);
+        Optional<UserSystem> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
             throw new NotFoundException("Id " + id + " not found");
@@ -46,7 +48,7 @@ public class PatientService {
     @Transactional
     public UserSystem create(UserSystem user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        var role = roleRepository.findByName("PACIENTE").get();
+        Role role = roleRepository.findByName("PACIENTE").get();
         user.getAuth().setPassword(passwordEncoder.encode(user.getAuth().getPassword()));
         user.getProfile().getMetaData().forEach(metaData -> metaData.setProfile(user.getProfile()));
         user.setRole(role);
