@@ -14,7 +14,7 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="doctor_generator")
 	@SequenceGenerator(name="doctor_generator", sequenceName="doctor_seq", allocationSize=1)
     private long id;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserSystem user;
     private String crm;
     private LocalDateTime createdAt = LocalDateTime.now();
