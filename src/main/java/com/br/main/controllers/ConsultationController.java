@@ -37,4 +37,10 @@ public class ConsultationController {
         Consultation consultation = consultationService.create(ConsultationDTO.toConsultation(consultationDTO));
         return new ResponseEntity<>(new ConsultationDTO(consultation), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ConsultationDTO> updateConsultationById(@PathVariable(value = "id") Long id, @Valid @RequestBody ConsultationDTO consultationDTO) {
+        Consultation consultation = consultationService.update(id, ConsultationDTO.toConsultation(consultationDTO));
+        return ResponseEntity.ok(new ConsultationDTO((consultation)));
+    }
 }

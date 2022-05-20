@@ -46,6 +46,26 @@ public class ConsultationService {
 
     @Transactional
     public Consultation create(Consultation consultation) {
+        return consultationRepository.save(checkConsultation(consultation));
+    }
+
+    @Transactional
+    public Consultation update(Long id, Consultation consultation) {
+        Consultation entity = getById(id);
+        consultation = checkConsultation(consultation);
+
+        entity.setDoctor(consultation.getDoctor());
+        entity.setPatient(consultation.getPatient());
+        entity.setConsultationReturn(consultation.getConsultationReturn());
+        entity.setConsultationDate(consultation.getConsultationDate());
+        entity.setObservations(consultation.getObservations());
+        entity.setScheduled(consultation.getScheduled());
+        entity.setStatus(consultation.getStatus());
+
+        return entity;
+    }
+
+    private Consultation checkConsultation(Consultation consultation) {
         Optional<Doctor> doctor = doctorRepository.findById(consultation.getDoctor().getId());
         Optional<UserSystem> patient = userRepository.findById(consultation.getPatient().getId());
         Optional<Consultation> consultationReturn = Optional.empty();
@@ -69,6 +89,6 @@ public class ConsultationService {
         if (consultation.getConsultationReturn() != null)
             consultation.setConsultationReturn(consultationReturn.get());
 
-        return consultationRepository.save(consultation);
+        return consultation;
     }
 }
