@@ -9,6 +9,7 @@ import com.br.main.repositories.DoctorRepository;
 import com.br.main.repositories.UserRepository;
 import com.br.main.services.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -90,5 +91,15 @@ public class ConsultationService {
             consultation.setConsultationReturn(consultationReturn.get());
 
         return consultation;
+    }
+
+    public void deleteById(Long id) {
+        getById(id);
+
+        try {
+            consultationRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Integrity violation");
+        }
     }
 }

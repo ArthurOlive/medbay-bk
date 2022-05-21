@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.br.main.services.exceptions.NotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +65,22 @@ public class HandlerExceptions extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> entityNotFound(NotFoundException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
+
+        Map<String, Object> resp = new LinkedHashMap<>();
+        resp.put("timestamp", new Date());
+        resp.put("status", status.value());
+
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+
+        resp.put("errors", errors);
+
+        return new ResponseEntity<>(resp, status);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> databaseException(DataIntegrityViolationException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
         Map<String, Object> resp = new LinkedHashMap<>();
         resp.put("timestamp", new Date());

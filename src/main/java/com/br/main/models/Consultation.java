@@ -29,7 +29,7 @@ public class Consultation implements Serializable {
 
     //TODO falta o atributo estabelecimento
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Consultation consultationReturn;
 
     @ElementCollection(fetch = FetchType.LAZY)

@@ -43,4 +43,10 @@ public class ConsultationController {
         Consultation consultation = consultationService.update(id, ConsultationDTO.toConsultation(consultationDTO));
         return ResponseEntity.ok(new ConsultationDTO((consultation)));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteConsultationById(@PathVariable(value = "id") Long id){
+        consultationService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
