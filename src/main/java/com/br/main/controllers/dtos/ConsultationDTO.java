@@ -72,7 +72,7 @@ public class ConsultationDTO implements Serializable {
         patient.setId(consultationDTO.getPatientId());
         consultation.setPatient(patient);
 
-        if (consultationDTO.getConsultationReturnId() != null) {
+        if (consultationDTO.getConsultationReturnId() != null && consultationDTO.getConsultationReturnId() != 0) {
             consultationReturn.setId(consultationDTO.getConsultationReturnId());
             consultation.setConsultationReturn(consultationReturn);
         }
@@ -144,4 +144,3 @@ public class ConsultationDTO implements Serializable {
         this.status = status;
     }
 }
-
