@@ -36,6 +36,10 @@ public class ConsultationService {
             var profile = userDetails.getUser().getProfile();
             var userId = userRepository.findByProfileId(profile.getId()).getId();
             return consultationRepository.findAllByDoctor(pageable, userId);
+        } else if (userDetails.getRole().equals(RoleEnum.PACIENTE.toString().toUpperCase())) {
+            var profile = userDetails.getUser().getProfile();
+            var userId = userRepository.findByProfileId(profile.getId()).getId();
+            return consultationRepository.findAllByPaciente(pageable, userId);
         } else
             return consultationRepository.findAll(pageable);
     }
