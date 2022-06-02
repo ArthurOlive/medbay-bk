@@ -1,5 +1,6 @@
 package com.br.main.services;
 
+import com.br.main.config.UserCustomDetails;
 import com.br.main.controllers.dtos.RoleEnum;
 import com.br.main.models.Consultation;
 import com.br.main.models.Doctor;
@@ -30,8 +31,13 @@ public class ConsultationService {
     private UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public Page<Consultation> getAll(Pageable pageable) {
-        return consultationRepository.findAll(pageable);
+    public Page<Consultation> getAll(Pageable pageable, UserCustomDetails userDetails) {
+        if (userDetails.getRole().equals(RoleEnum.MEDICO.toString().toUpperCase())) {
+            var profile = userDetails.getUser().getProfile();
+            var userId = userRepository.findByProfileId(profile.getId()).getId();
+            return consultationRepository.findAllByDoctor(pageable, userId);
+        } else
+            return consultationRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
@@ -81,7 +87,8 @@ public class ConsultationService {
         }
         if (consultation.getConsultationReturn() != null)
             if (consultationReturn.isEmpty()) {
-                throw new NotFoundException("Consultation return with id " + consultation.getConsultationReturn().getId() + " not found");
+                throw new NotFoundException(
+                        "Consultation return with id " + consultation.getConsultationReturn().getId() + " not found");
             }
 
         consultation.setDoctor(doctor.get());

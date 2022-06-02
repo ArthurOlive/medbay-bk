@@ -17,4 +17,7 @@ public interface UserRepository extends CrudRepository<UserSystem, Long> {
 
     @Query("SELECT DISTINCT u FROM UserSystem u WHERE u.role.name =:role")
     Page<UserSystem> findAllByRole(Pageable pageable, String role);
+
+    @Query("SELECT u FROM UserSystem u WHERE u.profile.id =:profileId")
+    UserSystem findByProfileId(@Param("profileId") long profileId);
 }
