@@ -57,6 +57,9 @@ public class ConsultationService {
 
     @Transactional
     public Consultation create(Consultation consultation) {
+        if (consultationRepository.findByScheduled(consultation.getScheduled()).isPresent())
+            throw new DataIntegrityViolationException("This schedule already exists");
+
         return consultationRepository.save(checkConsultation(consultation));
     }
 
